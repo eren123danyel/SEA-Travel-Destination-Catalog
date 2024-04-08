@@ -1,78 +1,82 @@
 /**
- * Data Catalog Project Starter Code - SEA Stage 2
- *
- * This file is where you should be doing most of your work. You should
- * also make changes to the HTML and CSS files, but we want you to prioritize
- * demonstrating your understanding of data structures, and you'll do that
- * with the JavaScript code you write in this file.
- * 
- * The comments in this file are only to help you learn how the starter code
- * works. The instructions for the project are in the README. That said, here
- * are the three things you should do first to learn about the starter code:
- * - 1 - Change something small in index.html or style.css, then reload your 
- *    browser and make sure you can see that change. 
- * - 2 - On your browser, right click anywhere on the page and select
- *    "Inspect" to open the browser developer tools. Then, go to the "console"
- *    tab in the new window that opened up. This console is where you will see
- *    JavaScript errors and logs, which is extremely helpful for debugging.
- *    (These instructions assume you're using Chrome, opening developer tools
- *    may be different on other browsers. We suggest using Chrome.)
- * - 3 - Add another string to the titles array a few lines down. Reload your
- *    browser and observe what happens. You should see a fourth "card" appear
- *    with the string you added to the array, but a broken image.
- * 
+Data Catalog Project - SEA Stage 2
  */
 
+// Global Variables
+const paginationMax = 10;
+let paginationIndex = 0; 
 
-const FRESH_PRINCE_URL = "https://upload.wikimedia.org/wikipedia/en/3/33/Fresh_Prince_S1_DVD.jpg";
-const CURB_POSTER_URL = "https://m.media-amazon.com/images/M/MV5BZDY1ZGM4OGItMWMyNS00MDAyLWE2Y2MtZTFhMTU0MGI5ZDFlXkEyXkFqcGdeQXVyMDc5ODIzMw@@._V1_FMjpg_UX1000_.jpg";
-const EAST_LOS_HIGH_POSTER_URL = "https://static.wikia.nocookie.net/hulu/images/6/64/East_Los_High.jpg";
 
-// This is an array of strings (TV show titles)
-let titles = [
-    "Fresh Prince of Bel Air",
-    "Curb Your Enthusiasm",
-    "East Los High"
-];
-// Your final submission should have much more data than this, and 
-// you should use more than just an array of strings to store it all.
+function sortIsoCode(item) {
+    if (item.iso_code) {
+        return true
+    }
+    else {
+        return false
+    }
+}
 
+// This funciton loads the data from csi.json
+async function loadData() {
+    let destinations;
+    await fetch('data/csi.json')
+    .then(response => response.json())
+    .then(data => destinations = data)
+    .catch(error => console.log(error));
+    destinations = destinations.filter(sortIsoCode);
+    return destinations;
+}
 
 // This function adds cards the page to display the data in the array
-function showCards() {
+async function showCards() {
     const cardContainer = document.getElementById("card-container");
-    cardContainer.innerHTML = "";
     const templateCard = document.querySelector(".card");
-    
-    for (let i = 0; i < titles.length; i++) {
-        let title = titles[i];
+    const data = await loadData();
 
-        // This part of the code doesn't scale very well! After you add your
-        // own data, you'll need to do something totally different here.
-        let imageURL = "";
-        if (i == 0) {
-            imageURL = FRESH_PRINCE_URL;
-        } else if (i == 1) {
-            imageURL = CURB_POSTER_URL;
-        } else if (i == 2) {
-            imageURL = EAST_LOS_HIGH_POSTER_URL;
+    // Pagination arrows
+    // Right (If the pagination is above the length of the data, hide the right arrow)
+    if (data.length <= paginationIndex*paginationMax+paginationMax) {
+        document.querySelector("#right").classList.add("hidden");
+    } else {
+        document.querySelector("#right").classList.remove("hidden");
+    }
+    // Left  (If the pagination is below 0, hide the left arrow)
+    if (0 >= paginationIndex*paginationMax) {
+        document.querySelector("#left").classList.add("hidden");
+    } else {
+        document.querySelector("#left").classList.remove("hidden");
+    }
+
+    for (let i = paginationIndex*paginationMax; i < paginationIndex*paginationMax + paginationMax; i++) {
+        let title = data[i].geopoliticalarea;
+        let imageURL;
+        // Some countries have changed their iso codes
+        if (data[i].iso_code.toString().toLowerCase() == "cs") {
+            imageURL = "https://flagcdn.com/h240/rs.png";
         }
-
+        else if(data[i].iso_code.toString().toLowerCase() == "bu") {
+            imageURL = "https://flagcdn.com/h240/mm.png";
+        } else {
+            imageURL = "https://flagcdn.com/w160/"+data[i].iso_code.toString().toLowerCase()+".png";
+        }
+        let description = data[i].destination_description + '</br>' + data[i].travel_embassyAndConsulate
         const nextCard = templateCard.cloneNode(true); // Copy the template card
-        editCardContent(nextCard, title, imageURL); // Edit title and image
+        nextCard.classList.remove("hidden"); // Make sure they aren't hidden
+        editCardContent(nextCard, title, imageURL,description); // Edit title, image and add description
         cardContainer.appendChild(nextCard); // Add new card to the container
     }
 }
 
-function editCardContent(card, newTitle, newImageURL) {
-    card.style.display = "block";
-
+function editCardContent(card, newTitle, newImageURL, description) {
     const cardHeader = card.querySelector("h2");
     cardHeader.textContent = newTitle;
 
     const cardImage = card.querySelector("img");
     cardImage.src = newImageURL;
-    cardImage.alt = newTitle + " Poster";
+    cardImage.alt = "Flag of "+ newTitle;
+
+    const cardDialog = card.querySelector("dialog span");
+    cardDialog.innerHTML = description;
 
     // You can use console.log to help you debug!
     // View the output by right clicking on your website,
@@ -80,15 +84,29 @@ function editCardContent(card, newTitle, newImageURL) {
     console.log("new card:", newTitle, "- html: ", card);
 }
 
-// This calls the addCards() function when the page is first loaded
+
+// Remove all cards 
+function removeAll() {
+    document.querySelectorAll(".card").forEach(el => {if (!el.classList.contains('hidden')){el.remove()}});
+}
+
+// Paginatiation
+function pagination(direction) {
+    // Remove all cards before showing new cards
+    removeAll();
+    if(direction == "right") {
+        paginationIndex+=1;
+    }
+    if(direction == "left") {
+        paginationIndex-=1;
+    }
+    // Update cards after changing pagination
+    showCards();
+}
+
+
+// This calls the showCard() function when the page is first loaded
 document.addEventListener("DOMContentLoaded", showCards);
 
-function quoteAlert() {
-    console.log("Button Clicked!")
-    alert("I guess I can kiss heaven goodbye, because it got to be a sin to look this good!");
-}
 
-function removeLastCard() {
-    titles.pop(); // Remove last item in titles array
-    showCards(); // Call showCards again to refresh
-}
+
