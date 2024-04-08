@@ -3,18 +3,33 @@ Data Catalog Project - SEA Stage 2
  */
 
 // Global Variables
-const paginationMax = 10;
-let paginationIndex = 0; 
+const paginationMax = 10; // How many cards per page
+let paginationIndex = 0;  // Current index
+let query; // Search query
 
 
+//Update the search
+function searchUpdate(search) {
+    query = search;  // Update the query
+    paginationIndex = 0; // Reset the index
+    removeAll(); // Remove all visible cards
+    showCards(); // Show new cards
+}
+
+// If the item doesn't have a iso_code remove it 
 function sortIsoCode(item) {
     if (item.iso_code) {
-        return true
+        return true;
     }
     else {
-        return false
+        return false;
     }
 }
+
+// Function for searching (can be updated to include more search criteria)
+function searchFilter(item) {
+    return item.geopoliticalarea.toLowerCase().includes(query.toLowerCase()) || item.destination_description.toLowerCase().includes(query.toLowerCase());
+} 
 
 // This funciton loads the data from csi.json
 async function loadData() {
@@ -23,7 +38,8 @@ async function loadData() {
     .then(response => response.json())
     .then(data => destinations = data)
     .catch(error => console.log(error));
-    destinations = destinations.filter(sortIsoCode);
+    destinations = destinations.filter(sortIsoCode); // Remove any destinations without iso codes (No flags :( )
+    if (query) {destinations = destinations.filter(searchFilter);} // If there is a query, filter items based on that query
     return destinations;
 }
 
@@ -31,6 +47,7 @@ async function loadData() {
 async function showCards() {
     const cardContainer = document.getElementById("card-container");
     const templateCard = document.querySelector(".card");
+    const pageNumber = document.querySelector("#pageNumber");
     const data = await loadData();
 
     // Pagination arrows
@@ -47,6 +64,10 @@ async function showCards() {
         document.querySelector("#left").classList.remove("hidden");
     }
 
+    // Show page number
+    pageNumber.textContent = "Page " + (paginationIndex+1) + " of " + Math.ceil(data.length / paginationMax); 
+
+    // Create cards
     for (let i = paginationIndex*paginationMax; i < paginationIndex*paginationMax + paginationMax; i++) {
         let title = data[i].geopoliticalarea;
         let imageURL;
@@ -76,7 +97,7 @@ function editCardContent(card, newTitle, newImageURL, description) {
     cardImage.alt = "Flag of "+ newTitle;
 
     const cardDialog = card.querySelector("dialog span");
-    cardDialog.innerHTML = description;
+    cardDialog.innerHTML = description; 
 
     // You can use console.log to help you debug!
     // View the output by right clicking on your website,
@@ -100,6 +121,7 @@ function pagination(direction) {
     if(direction == "left") {
         paginationIndex-=1;
     }
+
     // Update cards after changing pagination
     showCards();
 }

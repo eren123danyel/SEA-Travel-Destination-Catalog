@@ -17,7 +17,7 @@
     <!-- Search -->
     <div id="search">
         <img width="25rem" src="imgs/icons8-search-50.png">
-        <input type="text">
+        <input onchange="(()=> searchUpdate(this.value))()" type="text">
     </div>  
     <!-- Travel Destinations - Grid -->
     <div id="card-container">
@@ -36,7 +36,7 @@
     <!-- Pagination -->
     <div id="pagination">
         <button id="left" class="hidden" onClick="pagination('left')";><</button>
-        <p>Page #</p>
+        <p id="pageNumber">Page #</p>
         <button id="right" onClick="pagination('right');">></button>
     </div>
 </body>
