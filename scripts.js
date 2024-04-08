@@ -16,6 +16,18 @@ function searchUpdate(search) {
     showCards(); // Show new cards
 }
 
+// Tabs 
+function changeTab(el,index) {
+    const parent = el.parentNode;
+    const buttons = parent.querySelectorAll('button');
+    const listItems = parent.querySelectorAll('.desc');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    el.classList.add('active');
+    console.log(index,listItems);
+    listItems.forEach(ul => ul.classList.add('hidden'));
+    listItems[index].classList.remove('hidden');
+}
+
 // If the item doesn't have a iso_code remove it 
 function sortIsoCode(item) {
     if (item.iso_code) {
@@ -43,6 +55,28 @@ async function loadData() {
     return destinations;
 }
 
+// This function creates the descriptions for the modals
+function makeDescription(dest) {
+    let tmp = "<h2>Short Description:</h2></br>";
+    tmp += dest.destination_description;
+    tmp += "</br>"
+    tmp += "<h2>Relevant Information:</h2></br>";
+    //transportation, health, local laws, safety, entry/exit requirements, embassy
+    tmp += "<button onclick='(()=>changeTab(this,0))()' class='active' style='margin-right:0.5rem;'>"+"Health"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,1))()' style='margin-right:0.5rem;'>"+"Safety"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,2))()' style='margin-right:0.5rem;'>"+"Entry/exit"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,3))()' style='margin-right:0.5rem;'>"+"Embassy"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,4))()' style='margin-right:0.5rem;'>"+"Local laws"+"</button>"
+    tmp += "<ul class='tabs'>"
+    tmp +=      "<li class='desc'>"+dest.health+"</li>"
+    tmp +=      "<li class='desc hidden'>"+dest.safety_and_security+"</li>"
+    tmp +=      "<li class='desc hidden'>"+dest.entry_exit_requirements+"</li>"
+    tmp +=      "<li class='desc hidden'>"+dest.travel_embassyAndConsulate+"</li>"
+    tmp +=      "<li class='desc hidden'>"+dest.local_laws_and_special_circumstances+"</li>"
+    tmp += "</ul>"
+    return tmp;
+}
+
 // This function adds cards the page to display the data in the array
 async function showCards() {
     const cardContainer = document.getElementById("card-container");
@@ -67,6 +101,7 @@ async function showCards() {
     // Show page number
     pageNumber.textContent = "Page " + (paginationIndex+1) + " of " + Math.ceil(data.length / paginationMax); 
 
+
     // Create cards
     for (let i = paginationIndex*paginationMax; i < paginationIndex*paginationMax + paginationMax; i++) {
         let title = data[i].geopoliticalarea;
@@ -80,7 +115,7 @@ async function showCards() {
         } else {
             imageURL = "https://flagcdn.com/w160/"+data[i].iso_code.toString().toLowerCase()+".png";
         }
-        let description = data[i].destination_description + '</br>' + data[i].travel_embassyAndConsulate
+        let description = makeDescription(data[i]);
         const nextCard = templateCard.cloneNode(true); // Copy the template card
         nextCard.classList.remove("hidden"); // Make sure they aren't hidden
         editCardContent(nextCard, title, imageURL,description); // Edit title, image and add description

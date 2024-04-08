@@ -59,11 +59,17 @@
     margin: auto;
     position: absolute;
     border-radius: 9px;
-    width: 30rem;
+    width: 80rem;
     height: fit-content;
     overflow: auto;
   }
   
+
+ dialog > span {
+    max-height: 60vh;
+    overflow-y: auto;
+ }
+
   dialog[open] {
     animation: fadeInUp 0.5s ease forwards;
     display: flex;
@@ -87,10 +93,22 @@
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 9px;
     cursor: pointer;
   }
   
+  span > button {
+    background-color: yellow;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 9px;
+    cursor: pointer; 
+  }
+
+ .active {
+    background-color: orange !important;
+ }
+
   #left,
   #right {
     border: none;
