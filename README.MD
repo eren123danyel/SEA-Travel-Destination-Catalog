@@ -2,7 +2,7 @@
 
 This project was created as part of the second stage of the Snap Engineering Academy. I made a web-based catalog that provides detailed information about different countries, including their travel requirements, local laws, and special entry/exit requirements for US citizens.
 
-[Snap Engineering Academy](https://snap.com/en-US/jobs/programs-and-events/snap-engineering-academy) 
+[Snap Engineering Academy](https://www.snapacademies.com/apply-now) 
 
 ## Website
 
