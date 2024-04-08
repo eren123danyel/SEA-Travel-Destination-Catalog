@@ -1,90 +1,153 @@
+/* General styles and resets */
 * {
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 0;
     margin: 0;
-}
-
-dialog[open] {
-    display: flex;
-    flex-direction: column;
-}
-
-dialog {
-    margin:auto;
-    border-radius: 9px;
-    width: 30rem;
-    height: auto;
-    overflow:auto;
-}
-
-.card-content > img {
-    border: 0.1px solid #ccc;
-}
-
-#pagination {
-    width: 100%;
-    display:flex;
-    justify-content: center;
-    padding-top: 1rem;
-    gap:1rem;
+    line-height: 1.5;
+  }
+  
+  /* Typography */
+  h1 {
+    padding: 2rem 0 2rem 0;
+    text-align: center;
+  }
+  
+  /* Layout and positioning */
+  #card-container {
+    width: 90%;
     margin: auto;
-}
-
-#search {
-    width: 10rem;
-    padding: 0.1rem;
-    margin: auto;
-    margin-bottom: 3rem;
-    display: flex;
-    align-items: center;
-    border: 1px solid black;
-    border-radius: 999999px;
-}
-
-input, input:focus{
-    width: 100%;
-    outline: none;
-    border: 0;
-}
-
-
-#card-container {
-    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(10rem,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     grid-gap: 5rem;
     justify-items: center;
   }
-
-.card {
+  
+  /* Components and modules */
+  .card {
     width: 10rem;
     padding: 1rem;
-    text-align:center;
+    text-align: center;
     border: 1px solid black;
-}
-
-.card-content{
-    display:flex;
-    flex-grow:1;
+    border-radius: 9px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-content {
+    display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-}
-
-
-.hidden {
-    visibility: hidden;
-    display: none;
-}
-
-.card img {
+  }
+  
+  .card-content > img {
+    border: 0.1px solid #ccc;
+  }
+  
+  .card img {
     width: 100%;
     height: auto;
     object-fit: cover;
     margin-bottom: 10px;
   }
 
-h1 {
- padding:2rem 0 2rem 0;
- text-align:center;   
-}
+  dialog {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 1rem auto 1rem auto;
+    position: absolute;
+    border-radius: 9px;
+    width: 30rem;
+    height: fit-content;
+    overflow: auto;
+  }
+  
+  dialog[open] {
+    animation: fadeInUp 0.5s ease forwards;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* States and interactions */
+  .card-content > button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  dialog > button {
+    width: 50%;
+    margin:1rem auto 1rem auto;
+    background-color: #E30A17;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  #left,
+  #right {
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 9px;
+    color: black;
+    cursor: pointer;
+  }
+  
+  #left:hover,
+  #right:hover {
+    color: #ccc;
+  }
+  
+  /* Utilities and overrides */
+  .hidden {
+    visibility: hidden;
+    display: none;
+  }
+  
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+  }
+  
+  /* Specific components */
+  #search {
+    width: 10rem;
+    padding: 0.2rem;
+    margin: auto;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 999999px;
+  }
+  
+  input,
+  input:focus {
+    width: 100%;
+    outline: none;
+    border: 0;
+  }
+  
+  #pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1rem;
+    gap: 1rem;
+    margin: auto;
+  }
