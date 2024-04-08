@@ -43,7 +43,7 @@ function searchFilter(item) {
     return item.geopoliticalarea.toLowerCase().includes(query.toLowerCase()) || item.destination_description.toLowerCase().includes(query.toLowerCase());
 } 
 
-// This funciton loads the data from csi.json
+// This function loads the data from csi.json
 async function loadData() {
     let destinations;
     await fetch('data/csi.json')
