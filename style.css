@@ -10,11 +10,16 @@ dialog[open] {
 }
 
 dialog {
+    margin:auto;
+    border-radius: 9px;
     width: 30rem;
     height: auto;
-    margin: auto;
+    overflow:auto;
 }
 
+.card-content > img {
+    border: 0.1px solid #ccc;
+}
 
 #pagination {
     width: 100%;
@@ -47,12 +52,13 @@ input, input:focus{
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(10rem,1fr));
-    grid-gap: 2rem;
+    grid-gap: 5rem;
     justify-items: center;
   }
 
 .card {
     width: 10rem;
+    padding: 1rem;
     text-align:center;
     border: 1px solid black;
 }
