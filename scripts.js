@@ -10,7 +10,9 @@ let query; // Search query
 
 //Update the search
 function searchUpdate(search) {
-    query = search;  // Update the query
+    sanitize = document.createElement('div')
+    sanitize.innerHTML = search; // Protect against bad input
+    query = sanitize.textContent;  // Update the query
     paginationIndex = 0; // Reset the index
     removeAll(); // Remove all visible cards
     showCards(); // Show new cards
@@ -145,7 +147,7 @@ function editCardContent(card, newTitle, newImageURL, description) {
 
 // Remove all cards 
 function removeAll() {
-    document.querySelectorAll(".card").forEach(el => {if (!el.classList.contains('hidden')){el.remove()}});
+    document.querySelectorAll(".card").forEach(el => {if (!el.classList.contains('hidden')){el.remove()}}); // Remove all cards but the template card
 }
 
 // Paginatiation

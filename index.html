@@ -14,7 +14,7 @@
 <body>
     <!-- Hero Section -->
     <h1>Country Travel Information</h1>
-    <b style="text-align:center;display:block;padding-bottom: 1rem;color:gray">Gives detailed information on countries, and their travel requirements, local laws, and special entry/exit requirements (For US Citizens)</b>
+    <b style="text-align:center;display:block;padding-bottom:1rem;color:gray">Gives detailed information on countries, and their travel requirements, local laws, and special entry/exit requirements (For US Citizens)</b>
     <!-- Search -->
     <div id="search">
         <img width="25rem" src="imgs/icons8-search-50.png" alt="Search Icon">
@@ -22,6 +22,7 @@
     </div>  
     <!-- Travel Destinations - Grid -->
     <div id="card-container">
+        <!-- Template Card (Will be cloned) -->
         <div class="card hidden">
             <div class="card-content">
                 <h2>TITLE</h2>
@@ -37,7 +38,7 @@
     <!-- Pagination -->
     <div id="pagination">
         <button id="left" class="hidden" onClick="pagination('left')";><</button>
-        <p id="pageNumber">Page #</p>
+        <p id="pageNumber">Page # of #</p>
         <button id="right" onClick="pagination('right');">></button>
     </div>
     <i style="text-align:center;display:block;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;">Project for Snap Engineering Academy Stage 2 - 2024</i>
