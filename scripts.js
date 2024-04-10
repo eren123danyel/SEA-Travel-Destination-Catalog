@@ -19,13 +19,12 @@ function searchUpdate(search) {
 // Tabs 
 function changeTab(el,index) {
     const parent = el.parentNode;
-    const buttons = parent.querySelectorAll('button');
+    const activeButton = parent.querySelector('.active'); 
     const listItems = parent.querySelectorAll('.desc');
-    buttons.forEach(btn => btn.classList.remove('active'));
-    el.classList.add('active');
-    console.log(index,listItems);
-    listItems.forEach(ul => ul.classList.add('hidden'));
-    listItems[index].classList.remove('hidden');
+    activeButton.classList.remove('active'); // Remove the 'active' class from button previously selected button
+    el.classList.add('active'); // Add 'active' class to the currently selected button
+    listItems.forEach(ul => ul.classList.add('hidden')); // Make all of the list items hidden
+    listItems[index].classList.remove('hidden'); // Make the selected list item not hidden
 }
 
 // If the item doesn't have a iso_code remove it 
@@ -57,23 +56,25 @@ async function loadData() {
 
 // This function creates the descriptions for the modals
 function makeDescription(dest) {
-    let tmp = "<h2>Short Description:</h2></br>";
+    let tmp = "<h2>Short Description:</h2>";
     tmp += dest.destination_description;
     tmp += "</br>"
-    tmp += "<h2>Relevant Information:</h2></br>";
-    //transportation, health, local laws, safety, entry/exit requirements, embassy
-    tmp += "<button onclick='(()=>changeTab(this,0))()' class='active' style='margin-right:0.5rem;'>"+"Health"+"</button>"
-    tmp += "<button onclick='(()=>changeTab(this,1))()' style='margin-right:0.5rem;'>"+"Safety"+"</button>"
-    tmp += "<button onclick='(()=>changeTab(this,2))()' style='margin-right:0.5rem;'>"+"Entry/exit"+"</button>"
-    tmp += "<button onclick='(()=>changeTab(this,3))()' style='margin-right:0.5rem;'>"+"Embassy"+"</button>"
-    tmp += "<button onclick='(()=>changeTab(this,4))()' style='margin-right:0.5rem;'>"+"Local laws"+"</button>"
-    tmp += "<ul class='tabs'>"
+    tmp += "<h2>Relevant Information:</h2>";
+    //Adding information in this order: health, safety, entry/exit requirements, embassy, local laws, transportation
+    tmp += "<button onclick='(()=>changeTab(this,0))()' class='active' style='margin:0.5rem;'>"+"Health"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,1))()' style='margin:0.5rem;'>"+"Safety"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,2))()' style='margin:0.5rem;'>"+"Entry/exit"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,3))()' style='margin:0.5rem;'>"+"Embassy"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,4))()' style='margin:0.5rem;'>"+"Local laws"+"</button>"
+    tmp += "<button onclick='(()=>changeTab(this,5))()' style='margin:0.5rem;'>"+"Transportation"+"</button>"
+    tmp += "<ol class='tabs'>" // Make an ordered list of all the information 
     tmp +=      "<li class='desc'>"+dest.health+"</li>"
     tmp +=      "<li class='desc hidden'>"+dest.safety_and_security+"</li>"
     tmp +=      "<li class='desc hidden'>"+dest.entry_exit_requirements+"</li>"
     tmp +=      "<li class='desc hidden'>"+dest.travel_embassyAndConsulate+"</li>"
     tmp +=      "<li class='desc hidden'>"+dest.local_laws_and_special_circumstances+"</li>"
-    tmp += "</ul>"
+    tmp +=      "<li class='desc hidden'>"+dest.travel_transportation+"</li>"
+    tmp += "</ol>"
     return tmp;
 }
 
@@ -128,11 +129,12 @@ function editCardContent(card, newTitle, newImageURL, description) {
     cardHeader.textContent = newTitle;
 
     const cardImage = card.querySelector("img");
-    cardImage.src = newImageURL;
-    cardImage.alt = "Flag of "+ newTitle;
+    cardImage.src = newImageURL; 
+    cardImage.alt = "Flag of "+ newTitle; // Alternative text for screen readers
+    cardImage.title = newTitle; // When the user hovers their mouse over the image, shows the name of the country
 
-    const cardDialog = card.querySelector("dialog span");
-    cardDialog.innerHTML = description; 
+    const cardDialog = card.querySelector("dialog span"); 
+    cardDialog.innerHTML = description; // Render the description as html (Can be kind of dangerous)
 
     // You can use console.log to help you debug!
     // View the output by right clicking on your website,

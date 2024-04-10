@@ -48,7 +48,13 @@
     width: 100%;
     height: auto;
     object-fit: cover;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all .2s ease-in-out; 
+  }
+
+  .card img:hover {
+    transform: scale(1.1);
   }
 
   dialog {
@@ -85,6 +91,9 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .card-content > button:hover {
+    background-color: #1385ff;
+  }
 
   dialog > button {
     width: 50%;
@@ -103,6 +112,11 @@
     padding: 0.5rem 1rem;
     border-radius: 9px;
     cursor: pointer; 
+    transition: all .2s ease-in-out; 
+  }
+
+  span > button:hover {
+    transform: scale(0.9);
   }
 
  .active {

@@ -17,7 +17,7 @@
     <b style="text-align:center;display:block;padding-bottom: 1rem;color:gray">Gives detailed information on countries, and their travel requirements, local laws, and special entry/exit requirements (For US Citizens)</b>
     <!-- Search -->
     <div id="search">
-        <img width="25rem" src="imgs/icons8-search-50.png">
+        <img width="25rem" src="imgs/icons8-search-50.png" alt="Search Icon">
         <input onchange="(()=> searchUpdate(this.value))()" type="text" placeholder="Search...">
     </div>  
     <!-- Travel Destinations - Grid -->
@@ -25,7 +25,7 @@
         <div class="card hidden">
             <div class="card-content">
                 <h2>TITLE</h2>
-                <img alt="Flag" src="https://flagcdn.com/h240/tr.png">
+                <img alt="Flag" src="https://flagcdn.com/h240/tr.png" onclick="this.parentNode.children[3].click()">
                 <dialog>
                     <span>Description</span>
                     <button onclick="this.parentNode.close()">Close</button>
@@ -40,7 +40,7 @@
         <p id="pageNumber">Page #</p>
         <button id="right" onClick="pagination('right');">></button>
     </div>
-    <i style="text-align:center;display:block;position: fixed;bottom:0;left: 50%;transform:translateX(-50%)">Project for Snap Engineering Academy Stage 2 - 2024</i>
+    <i style="text-align:center;display:block;position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;">Project for Snap Engineering Academy Stage 2 - 2024</i>
 </body>
 
 </html>
