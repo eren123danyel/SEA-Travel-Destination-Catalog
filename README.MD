@@ -2,7 +2,7 @@
 
 This project was created as part of the second stage of the Snap Engineering Academy. I made a web-based catalog that provides detailed information about different countries, including their travel requirements, local laws, and special entry/exit requirements for US citizens.
 
-[Snap Engineering Academy](https://www.snapacademies.com/apply-now) 
+I would like to express my gratitude for the opportunity to participate in this stage of the [Snap Engineering Academy](https://www.snapacademies.com/apply-now)!
 
 ## Website
 
@@ -13,6 +13,7 @@ You can access the live version of the website at: [https://eren123danyel.github
 - Browse a catalog of countries with their respective flags
 - Search for specific countries using the search bar
 - View detailed information about each country by clicking on the "More information!" button
+- Tabination feature that provides different categories of information for each country, including transportation, health, safety, and more
 - Navigate through the catalog using pagination
 
 ## APIs and Data Sources
